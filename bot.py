@@ -6,7 +6,12 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
 import main
 
-vk_session = vk_api.VkApi(token='')
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv('VK_TOKEN')
+
+vk_session = vk_api.VkApi(token=TOKEN)
 vk = vk_session.get_api()
 group_id = vk.groups.getById()
 group_id = group_id[0]['id']
@@ -16,7 +21,7 @@ today = datetime.datetime.today()
 today = today.isoweekday() - 1
 tomorrow = datetime.datetime.today()
 tomorrow = tomorrow.isoweekday()
-timetable = main.Manager.generate_from_umeuos()
+timetable = main.Manager.generate_from_umeos()
 line = '-----'
 
 

@@ -8,7 +8,7 @@ check = datetime.datetime.today()
 check = check.isoweekday()
 
 
-def get_weak():
+def get_week():
     date_pattern = '%d.%m.%Y'
     url = 'https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/'
     request = requests.get(url)
@@ -82,9 +82,9 @@ class Manager:
     weeks = []
 
     @classmethod
-    def generate_from_umeuos(cls):
+    def generate_from_umeos(cls):
         days = {"Понедельник": 1, "Вторник": 2, "Среда": 3, "Четверг": 4, "Пятница": 5, "Суббота": 6, "Воскресенье": 7}
-        x = get_weak()
+        x = get_week()
         if check == 6:
             x += 1
         traceback = requests.get(f"https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/{x}/")
