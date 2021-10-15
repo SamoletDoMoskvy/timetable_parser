@@ -1,2 +1,6 @@
 requests==2.26.0
 beautifulsoup4==4.10.0
+<<<<<<< HEAD
+=======
+vk-api==11.9.4
+>>>>>>> 0f558d8e5aa1ff8cee36c6b1405a6dbf41fa206e
