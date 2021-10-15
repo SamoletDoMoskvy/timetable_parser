@@ -43,19 +43,12 @@ def get_date():
         week_list.extend([date_list])
 
     return week_list
-    # for x in range(len(week_list) - 1):
-    #     try:
-    #         print(week_list[x].index(TOMORROW))
-    #         print(x)
-    #     except:
-    #         pass
 
 
-# Получаем расписание на день
-def get_timetable(week_list):
+def get_timetable(week_list,    day):
     for x in range(len(week_list)):
         try:
-            week_list[x].index(TODAY)
+            week_list[x].index(day)
             x += 1
             break
         except:
@@ -83,7 +76,7 @@ def get_timetable(week_list):
         except:
             pass
 
-    print(timetable[TODAY.weekday() + 1])
+    return timetable[day.weekday() + 1]
 
 
-get_timetable(get_date())
+# output = get_timetable(get_date())
