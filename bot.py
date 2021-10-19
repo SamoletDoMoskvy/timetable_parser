@@ -49,14 +49,7 @@ for event in longpoll.listen():
             command = event.message.text.lower()
             from_id = event.message.from_id
 
-            if event.message.from_id == jan_id:
-                message = f"Либероид приложен, его сообщением было:'{event.message.text}'"
-                delete_message()
-                send_message(message)
-
-
-
-            elif command == '/расписание на завтра':
+            if command == '/расписание на завтра':
                 day_name = timetable.days[tomorrow].day_name
                 message = ""
                 for item in timetable.days[tomorrow].lessons:
@@ -66,7 +59,7 @@ for event in longpoll.listen():
 Время: {item.dt_from} - {item.dt_to}"""
                 send_message(message)
 
-            elif command == '/расписание на сегодня':
+            elif command == '/расписание на сегодня' or command == 'какой кабинет?' or command == 'какой кабинет' or command == 'какой каб?':
                 day_name = timetable.days[today].day_name
                 message = day_name
                 for item in timetable.days[today].lessons:
