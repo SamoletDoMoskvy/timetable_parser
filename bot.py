@@ -54,6 +54,8 @@ for event in longpoll.listen():
                 delete_message()
                 send_message(message)
 
+
+
             elif command == '/расписание на завтра':
                 day_name = timetable.days[tomorrow].day_name
                 message = ""
