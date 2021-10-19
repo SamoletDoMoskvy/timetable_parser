@@ -19,7 +19,6 @@ tomorrow = tomorrow.isoweekday()
 timetable = main.Manager.generate_from_umeuos()
 line = '-----'
 
-
 def send_message(msg):
     vk.messages.send(
         key=longpoll.key,
