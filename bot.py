@@ -22,9 +22,9 @@ try:
 
     timetable = main.Manager.generate_from_umeuos()
 
-except as Exception:
+except Exception as exc:
 
-    print(Exception)
+    print(exc)
 
     pass
 
