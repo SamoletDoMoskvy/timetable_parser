@@ -1,12 +1,13 @@
 import datetime
 import logging
+from token import token
 
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
 import main
 
-vk_session = vk_api.VkApi(token='')
+vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
 group_id = vk.groups.getById()
 group_id = group_id[0]['id']
@@ -16,8 +17,19 @@ today = datetime.datetime.today()
 today = today.isoweekday() - 1
 tomorrow = datetime.datetime.today()
 tomorrow = tomorrow.isoweekday()
-timetable = main.Manager.generate_from_umeuos()
+
+try:
+
+    timetable = main.Manager.generate_from_umeuos()
+
+except as Exception:
+
+    print(Exception)
+
+    pass
+
 line = '-----'
+
 
 def send_message(msg):
     vk.messages.send(
