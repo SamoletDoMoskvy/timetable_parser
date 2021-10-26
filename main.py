@@ -5,13 +5,26 @@ import datetime
 import re
 
 check = datetime.datetime.today()
+
 check = check.isoweekday()
 
 
 def get_weak():
     date_pattern = '%d.%m.%Y'
     url = 'https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/'
-    request = requests.get(url)
+
+    while True:
+
+        try:
+
+            request = requests.get(url)
+            break
+
+        except Exception as exc:
+
+            print(exc)
+            pass
+
     html = request.text
     soup = bs(html, 'html.parser')
     week = []
@@ -34,19 +47,29 @@ def get_weak():
     week_list = []
 
     for i in week_array:
+
         current_date1 = datetime.datetime.strptime(i[0], date_pattern)
+
         current_date2 = datetime.datetime.strptime(i[1], date_pattern)
+
         days_difference = current_date2 - datetime.timedelta(current_date1.day)
+
         date_list = ([current_date1 + datetime.timedelta(days=x) for x in range(days_difference.day + 1)])
+
         week_list.extend([date_list])
 
     for x in range(len(week_list)):
+
         try:
+
             week_list[x].index(day)
             x += 1
             break
+
         except:
+
             pass
+
     return x
 
 
@@ -83,11 +106,29 @@ class Manager:
 
     @classmethod
     def generate_from_umeuos(cls):
+
         days = {"Понедельник": 1, "Вторник": 2, "Среда": 3, "Четверг": 4, "Пятница": 5, "Суббота": 6, "Воскресенье": 7}
+        # X - number of week
         x = get_weak()
+
         if check == 6:
             x += 1
-        traceback = requests.get(f"https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/{x}/")
+
+        if datetime.datetime.isoweekday(datetime.datetime.today()) == 7:
+            x += 1
+
+        while True:
+
+            try:
+
+                traceback = requests.get(f"https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/{x}/")
+                break
+
+            except Exception as exc:
+
+                print(exc)
+                pass
+
         counter = 0
         day_index = None
 
@@ -107,7 +148,6 @@ class Manager:
                     continue
 
                 elif itm.name == "thead":
-                    print(itm.text)
                     current_day = itm.text.replace("\n", "")
                     day_index = days[current_day]
 
@@ -130,7 +170,7 @@ class Manager:
                         day.add_lesson(lesson=lesson)
 
                     week.add_day(day)
-                    print(day)
+
                     if day_index == max_index:
                         return week
                         cls.weeks.append(week)

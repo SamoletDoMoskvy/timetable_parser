@@ -1,32 +1,43 @@
 import datetime
-import logging
-from token import token
+from api_token import api_token
 
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
 import main
 
-vk_session = vk_api.VkApi(token=token)
+vk_session = vk_api.VkApi(token=api_token)
+
 vk = vk_session.get_api()
+
 group_id = vk.groups.getById()
+
 group_id = group_id[0]['id']
+
 longpoll = VkBotLongPoll(vk_session, group_id=group_id)
+
 vk.groups.getLongPollServer(group_id=group_id)
+
 today = datetime.datetime.today()
+
 today = today.isoweekday() - 1
+
 tomorrow = datetime.datetime.today()
+
 tomorrow = tomorrow.isoweekday()
 
-try:
 
-    timetable = main.Manager.generate_from_umeuos()
+while True:
 
-except Exception as exc:
+    try:
 
-    print(exc)
+        timetable = main.Manager.generate_from_umeuos()
+        break
 
-    pass
+    except Exception as exc:
+
+        print(exc)
+        pass
 
 line = '-----'
 
@@ -56,13 +67,22 @@ for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW:
 
         if event.from_chat:
-            jan_id = 237461777
+            #jan_id = 237461777
             command = event.message.text.lower()
             from_id = event.message.from_id
 
             if command == '/расписание на завтра':
-                day_name = timetable.days[tomorrow].day_name
-                message = ""
+
+                try:
+                    day_name = timetable.days[tomorrow].day_name
+                    message = day_name
+
+                except Exception as exc:
+                    print(exc)
+                    message = 'Выходной'
+                    send_message(message)
+                    continue
+
                 for item in timetable.days[tomorrow].lessons:
                     message += f"""\n\n№{item.index}
 {item.title}
@@ -71,8 +91,17 @@ for event in longpoll.listen():
                 send_message(message)
 
             elif command == '/расписание на сегодня' or command == 'какой кабинет?' or command == 'какой кабинет' or command == 'какой каб?':
-                day_name = timetable.days[today].day_name
-                message = day_name
+
+                try:
+                    day_name = timetable.days[today].day_name
+                    message = day_name
+
+                except Exception as exc:
+                    print(exc)
+                    message = 'Выходной'
+                    send_message(message)
+                    continue
+
                 for item in timetable.days[today].lessons:
                     message += f"""\n\n№{item.index}
 {item.title}
