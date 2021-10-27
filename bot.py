@@ -90,7 +90,7 @@ for event in longpoll.listen():
 Время: {item.dt_from} - {item.dt_to}"""
                 send_message(message)
 
-            elif command == '/расписание на сегодня' or command == 'какой кабинет?' or command == 'какой кабинет' or command == 'какой каб?':
+            elif command == '/расписание на сегодня' or command == 'какой кабинет?' or command == 'какой кабинет' or command == 'какой каб?' or command == 'какой каб':
 
                 try:
                     day_name = timetable.days[today].day_name

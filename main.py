@@ -21,9 +21,10 @@ def get_weak():
             break
 
         except Exception as exc:
-
+            
+            print("Отвалился на 20'й строчке кода 'request = requests.get(url)'")
             print(exc)
-            pass
+            continue
 
     html = request.text
     soup = bs(html, 'html.parser')
@@ -126,8 +127,9 @@ class Manager:
 
             except Exception as exc:
 
+                print("Отвалился на 125'й строчке кода 'request = requests.get(url)'")
                 print(exc)
-                pass
+                continue
 
         counter = 0
         day_index = None
