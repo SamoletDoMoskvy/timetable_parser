@@ -6,17 +6,30 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
 import main
 
-vk_session = vk_api.VkApi(token=api_token)
 
-vk = vk_session.get_api()
+while True:
 
-group_id = vk.groups.getById()
+    try:
 
-group_id = group_id[0]['id']
+        vk_session = vk_api.VkApi(token=api_token)
 
-longpoll = VkBotLongPoll(vk_session, group_id=group_id)
+        vk = vk_session.get_api()
 
-vk.groups.getLongPollServer(group_id=group_id)
+        group_id = vk.groups.getById()
+
+        group_id = group_id[0]['id']
+
+        longpoll = VkBotLongPoll(vk_session, group_id=group_id)
+
+        vk.groups.getLongPollServer(group_id=group_id)
+        break
+
+    except Exception as exc:
+
+        print("Отвалился на 23'й строчке кода в модуле bot.py")
+        print(exc)
+        pass
+
 
 today = datetime.datetime.today()
 
@@ -67,7 +80,6 @@ for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW:
 
         if event.from_chat:
-            #jan_id = 237461777
             command = event.message.text.lower()
             from_id = event.message.from_id
 
