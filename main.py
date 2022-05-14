@@ -48,27 +48,19 @@ def get_weak():
     week_list = []
 
     for i in week_array:
-
         current_date1 = datetime.datetime.strptime(i[0], date_pattern)
-
         current_date2 = datetime.datetime.strptime(i[1], date_pattern)
-
         days_difference = current_date2 - datetime.timedelta(current_date1.day)
-
         date_list = ([current_date1 + datetime.timedelta(days=x) for x in range(days_difference.day + 1)])
-
         week_list.extend([date_list])
 
     for x in range(len(week_list)):
-
         try:
-
             week_list[x].index(day)
             x += 1
             break
 
         except:
-
             pass
 
     return x
@@ -108,7 +100,15 @@ class Manager:
     @classmethod
     def generate_from_umeuos(cls):
 
-        days = {"Понедельник": 1, "Вторник": 2, "Среда": 3, "Четверг": 4, "Пятница": 5, "Суббота": 6, "Воскресенье": 7}
+        days = {
+            "Понедельник": 1,
+            "Вторник": 2,
+            "Среда": 3,
+            "Четверг": 4,
+            "Пятница": 5,
+            "Суббота": 6,
+            "Воскресенье": 7
+        }
         # X - number of week
         x = get_weak()
 
@@ -119,14 +119,11 @@ class Manager:
             x += 1
 
         while True:
-
             try:
-
                 traceback = requests.get(f"https://www.spbume.ru/ru/viewschedule/%D0%9E%D0%94%D0%9E-%D0%9F%D0%9809-18-1/{x}/")
                 break
 
             except Exception as exc:
-
                 print("Отвалился на 125'й строчке кода 'request = requests.get(url)'")
                 print(exc)
                 continue
